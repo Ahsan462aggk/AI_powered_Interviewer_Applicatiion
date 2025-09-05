@@ -6,16 +6,8 @@ from datetime import datetime, timedelta
 from typing import Optional
 from app.database import get_session
 from app import crud, models, schemas
-import os
-from dotenv import load_dotenv
+from app.settings import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 
-# Load environment variables
-load_dotenv()
-
-# Secret key for JWT (ensure to use environment variables in production)
-SECRET_KEY = os.getenv("SECRET_KEY")  # Replace with a secure key
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """

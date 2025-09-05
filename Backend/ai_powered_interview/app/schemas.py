@@ -13,7 +13,7 @@ class CategoryRead(SQLModel):
     id: int
     name: str
 
-
+ 
 class SessionCreate(SQLModel):
     pass  # Assuming category_id is provided via header
 
