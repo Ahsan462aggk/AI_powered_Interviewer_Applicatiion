@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir poetry
 
 # Copy project metadata required by Poetry (including README) before install
-COPY pyproject.toml poetry.lock README.md ./
+COPY pyproject.toml  README.md ./
 
 # Ensure the package source (`app`) exists before installing the project
 COPY app ./app
