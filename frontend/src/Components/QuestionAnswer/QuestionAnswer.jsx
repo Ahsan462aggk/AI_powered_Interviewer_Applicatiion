@@ -50,7 +50,7 @@ const QuestionAnswer = () => {
       const { id: sessionId, category_id: categoryId } = session;
   
       const response = await axios.post(
-        'http://localhost:8089/session/answer',
+        'https://ahsan462agk-ai-powered-interviewer.hf.space/session/answer',
         { answer_text: answerText },
         {
           headers: {

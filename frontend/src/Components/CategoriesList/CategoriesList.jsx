@@ -20,6 +20,7 @@ const CategoriesList = () => {
   const [jobCategories, setJobCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [selectionLoading, setSelectionLoading] = useState(false);
   const [selectionError, setSelectionError] = useState(null);
 
@@ -40,7 +41,7 @@ const CategoriesList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8089/categories', {
+        const response = await axios.get('https://ahsan462agk-ai-powered-interviewer.hf.space/categories/', {
           withCredentials: true,
         });
         const categoriesWithIcons = response.data.map((category) => ({
@@ -54,13 +55,26 @@ const CategoriesList = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching categories:', err);
-        setError(true);
-        setLoading(false);
+        
+        // Handle 401 Unauthorized - redirect to login
+        if (err.response && err.response.status === 401) {
+          setLoading(false);
+          setError(true);
+          setErrorMessage('Unauthorized. Please log in to continue.');
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+            navigate('/login');
+          }, 2000);
+        } else {
+          setError(true);
+          setErrorMessage('Failed to load categories. Please try again later.');
+          setLoading(false);
+        }
       }
     };
 
     fetchCategories();
-  }, []);
+  }, [navigate]);
 
   const handleCategorySelect = async (categoryId) => {
     setSelectedId(categoryId);
@@ -69,7 +83,7 @@ const CategoriesList = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8089/session/init',
+        'https://ahsan462agk-ai-powered-interviewer.hf.space/session/init',
         {},
         {
           headers: {
@@ -127,10 +141,15 @@ const CategoriesList = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-red-500">
-          Failed to load categories. Please try again later.
+      <div className="flex flex-col justify-center items-center h-screen gap-4">
+        <p className="text-red-500 text-lg">
+          {errorMessage || 'Failed to load categories. Please try again later.'}
         </p>
+        {errorMessage && errorMessage.includes('Unauthorized') && (
+          <p className="text-white/70 text-sm">
+            Redirecting to login page...
+          </p>
+        )}
       </div>
     );
   }
@@ -169,17 +188,15 @@ const CategoriesList = () => {
               className={`
                 rounded-xl border transition-all duration-300 cursor-pointer
                 backdrop-blur-lg
-                ${
-                  selectedId === category.id
-                    ? 'border-white/50 bg-white/20'
-                    : hoveredId === category.id
+                ${selectedId === category.id
+                  ? 'border-white/50 bg-white/20'
+                  : hoveredId === category.id
                     ? 'border-white/30 bg-white/15'
                     : 'border-white/10 bg-white/10'
                 }
-                ${
-                  selectionLoading && selectedId === category.id
-                    ? 'opacity-50 cursor-wait'
-                    : ''
+                ${selectionLoading && selectedId === category.id
+                  ? 'opacity-50 cursor-wait'
+                  : ''
                 }
               `}
             >
@@ -188,10 +205,9 @@ const CategoriesList = () => {
                   <div
                     className={`
                       p-2 rounded-lg transition-all duration-300
-                      ${
-                        selectedId === category.id
-                          ? 'bg-white/25 text-white'
-                          : hoveredId === category.id
+                      ${selectedId === category.id
+                        ? 'bg-white/25 text-white'
+                        : hoveredId === category.id
                           ? 'bg-white/20 text-white'
                           : 'bg-white/15 text-white'
                       }

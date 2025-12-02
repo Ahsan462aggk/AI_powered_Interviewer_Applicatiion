@@ -24,7 +24,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8089/users/register", formData);
+      const response = await axios.post("https://ahsan462agk-ai-powered-interviewer.hf.space/users/register", formData);
       toast.success("Account created successfully!");
       navigate("/login");
     } catch (error) {

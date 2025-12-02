@@ -87,7 +87,7 @@ const FinalFeedback = () => {
           throw new Error('Session ID not found');
         }
 
-        const response = await axios.get('http://localhost:8089/session/final', {
+        const response = await axios.get('https://ahsan462agk-ai-powered-interviewer.hf.space/session/final', {
           headers: {
             'Session-ID': sessionId,
           },

@@ -10,7 +10,7 @@ const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
       // Make the sign-out request to the API
-      const response = await axios.post('http://localhost:8089/users/logout');
+      const response = await axios.post('https://ahsan462agk-ai-powered-interviewer.hf.space/users/logout');
 
       if (response.status === 200) {
         // Show success toast

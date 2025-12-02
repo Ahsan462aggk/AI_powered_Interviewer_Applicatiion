@@ -9,7 +9,6 @@ import SignOutButton from "./Components/SignOutButton/SignOutButton";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "./Components/Protected/ProtectedRoute";
-import ThankYouPage from "./Pages/Thankyou";
 
 // Protected Route Component
 
@@ -25,10 +24,10 @@ const App = () => {
         <Route path="/signup" element={<Register />} />
         <Route path="/login" element={<Login />} />
         {/* Change default redirect to /thanks */}
-        <Route path="/" element={<Navigate to="/thanks" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/categories" element={<CategoriesList />} />
         <Route path="/session" element={<Session />} />
-        <Route path="/thanks" element={<ThankYouPage />} />
+        {/* Removed /thanks route since ThankYouPage no longer exists */}
         
         <Route
           path="/final-feedback"
